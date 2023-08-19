@@ -86,3 +86,10 @@ C:\Users\jbmir\OneDrive\Desktop\PokemonReviewApp\PokemonReviewApp\bin\Debug\net6
 C:\Users\jbmir\OneDrive\Desktop\PokemonReviewApp\PokemonReviewApp\bin\Debug\net6.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\jbmir\OneDrive\Desktop\PokemonReviewApp\PokemonReviewApp\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
 C:\Users\jbmir\OneDrive\Desktop\PokemonReviewApp\PokemonReviewApp\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
+C:\Users\jbmir\OneDrive\Desktop\PokemonReviewApp\obj\Debug\net6.0\PokemonReviewApp.csproj.AssemblyReference.cache
+C:\Users\jbmir\OneDrive\Desktop\PokemonReviewApp\obj\Debug\net6.0\PokemonReviewApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jbmir\OneDrive\Desktop\PokemonReviewApp\obj\Debug\net6.0\PokemonReviewApp.AssemblyInfoInputs.cache
+C:\Users\jbmir\OneDrive\Desktop\PokemonReviewApp\obj\Debug\net6.0\PokemonReviewApp.AssemblyInfo.cs
+C:\Users\jbmir\OneDrive\Desktop\PokemonReviewApp\obj\Debug\net6.0\PokemonReviewApp.csproj.CoreCompileInputs.cache
+C:\Users\jbmir\OneDrive\Desktop\PokemonReviewApp\obj\Debug\net6.0\PokemonReviewApp.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\jbmir\OneDrive\Desktop\PokemonReviewApp\obj\Debug\net6.0\PokemonReviewApp.MvcApplicationPartsAssemblyInfo.cache
