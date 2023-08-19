@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PokemonReviewApp.Models;
 
+// Step 2: setup database , linking relationship ForeignKey(FK)
 namespace PokemonReviewApp.Data
 {
     // DbContext will allow you to query database
