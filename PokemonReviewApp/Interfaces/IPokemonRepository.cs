@@ -5,7 +5,7 @@
 - design pattern where you can put all your database calls , more reusable
 - aims to make your code less tightly coupled (means all in one place)
 
-- this file you will expose the methods you can use to perform action on database
+- this file you will expose the methods you can use to perform action on database | Controller file
  */
 
 using PokemonReviewApp.Dto;
@@ -15,8 +15,7 @@ namespace PokemonReviewApp.Interfaces
 {
     public interface IPokemonRepository
     {
-        // ICollection same as list but cannot be editable
-        ICollection<Pokemon> GetPokemons(); 
+        ICollection<Pokemon> GetPokemons(); // ICollection same as list but cannot be editable
         Pokemon GetPokemon(int id);
         Pokemon GetPokemon(string name);
         Pokemon GetPokemonTrimToUpper(PokemonDto pokemonCreate);

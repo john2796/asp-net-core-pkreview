@@ -5,8 +5,10 @@
 
 - design pattern where you can put all your database calls , more reusable
 
-- What is this file for ??
- Are these properties to expose to client??
+- This file is for:
+- Dto are way making sure you're not returning all data.
+- properties to expose to client
+- limit data people can send and recieve to api
  */
 
 

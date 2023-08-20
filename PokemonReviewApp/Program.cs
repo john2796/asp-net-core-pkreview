@@ -12,6 +12,9 @@ builder.Services.AddControllers();
 // Step 5: dependency injection("just means bring this to the program") wire seed.cs
 builder.Services.AddTransient<Seed>(); // add object to very beginning "AddTransient"
 
+// install AutoMapper DependencyInjection
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 // step 13: wire up api/endpoints ("dependency injection")
 builder.Services.AddScoped<IPokemonRepository, PokemonRepository>();
 
@@ -83,4 +86,12 @@ app.Run();
  * check microsoft sql server: make sure table are seeded , right click table --> select top 1000 Rows
  * 
  * if error: double check Seed.cs and program.cs related to seed depency injection
+ */
+
+
+/*
+ shortcuts
+
+"ctrl + ." gives recommendation code
+ 
  */
