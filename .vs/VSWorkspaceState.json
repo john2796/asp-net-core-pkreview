@@ -1,10 +1,12 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Data",
-    "\\Models",
-    "\\Properties"
+    "\\PokemonReviewApp",
+    "\\PokemonReviewApp\\Controllers",
+    "\\PokemonReviewApp\\Dto",
+    "\\PokemonReviewApp\\Interfaces",
+    "\\PokemonReviewApp\\Repository"
   ],
-  "SelectedNode": "\\Data\\DataContext.cs",
+  "SelectedNode": "\\PokemonReviewApp\\Repository\\ReviewRepository.cs",
   "PreviewInSolutionExplorer": false
 }
