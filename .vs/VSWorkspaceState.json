@@ -1,12 +1,7 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\PokemonReviewApp",
-    "\\PokemonReviewApp\\Controllers",
-    "\\PokemonReviewApp\\Dto",
-    "\\PokemonReviewApp\\Interfaces",
-    "\\PokemonReviewApp\\Repository"
+    ""
   ],
-  "SelectedNode": "\\PokemonReviewApp\\Repository\\ReviewRepository.cs",
+  "SelectedNode": "\\PokemonReviewApp.sln",
   "PreviewInSolutionExplorer": false
 }

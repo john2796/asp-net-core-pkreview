@@ -18,98 +18,90 @@ var pokemon = new Pokemon()
  }
  */
 
-using AutoMapper; 
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using PokemonReviewApp.Dto;
 using PokemonReviewApp.Interfaces;
 using PokemonReviewApp.Models;
+using System.Security;
 
 namespace PokemonReviewApp.Controllers
 {
-    // these are attributes to turn them to controller
     [Route("api/[controller]")]
     [ApiController]
     public class PokemonController : Controller
     {
-        // access to Repository methods
         private readonly IPokemonRepository _pokemonRepository;
+        // private readonly IPokemonRepository _reviewRepository;
         private readonly IMapper _mapper;
         private readonly IReviewRepository _reviewRepository;
 
 
-        // bring repository
-        public PokemonController(IPokemonRepository pokemonRepository, IReviewRepository reviewRepository, IMapper mapper)
+        public PokemonController(IPokemonRepository pokemonRepository,IReviewRepository reviewRepository, IMapper mapper)
         {
             _pokemonRepository = pokemonRepository;
             _mapper = mapper;
             _reviewRepository = reviewRepository;
-
         }
 
-        // endpoints CRUD
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Pokemon>))]
         public IActionResult GetPokemons()
         {
-
             var pokemons = _mapper.Map<List<PokemonDto>>(_pokemonRepository.GetPokemons());
-            // ModelState: form of validation
-            if (!ModelState.IsValid)
+
+            if(!ModelState.IsValid) 
                 return BadRequest(ModelState);
 
-            return Ok(pokemons);
+            return Ok(pokemons);    
         }
 
         [HttpGet("{pokeId}")]
         [ProducesResponseType(200, Type = typeof(Pokemon))]
         [ProducesResponseType(400)]
-        // IActionResult: lets us NotFound, BadRequest, basically action output result
         public IActionResult GetPokemon(int pokeId)
         {
             if (!_pokemonRepository.PokemonExists(pokeId)) return NotFound();
-            // _mapper: make properties of PokemonDto to returned result
+
             var pokemon = _mapper.Map<PokemonDto>(_pokemonRepository.GetPokemon(pokeId));
-            // do validation
-            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            if(!ModelState.IsValid) return BadRequest(ModelState);
 
             return Ok(pokemon);
         }
 
         [HttpGet("{pokeId}/rating")]
-        [ProducesResponseType(200, Type = typeof(decimal))]
+        [ProducesResponseType(200, Type=typeof(decimal))]
         [ProducesResponseType(400)]
         public IActionResult GetPokemonRating(int pokeId)
         {
             if (!_pokemonRepository.PokemonExists(pokeId)) return NotFound();
             var rating = _pokemonRepository.GetPokemonRating(pokeId);
-            // validation on Dto , client value etc.
             if (!ModelState.IsValid) return BadRequest(ModelState);
-
             return Ok(rating);
         }
 
+        // Failing double check later
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public IActionResult CreatePokemen([FromQuery] int ownerId, [FromQuery] int catId, [FromBody] PokemonDto pokemonCreate)
+        public IActionResult CreatePokemon([FromQuery] int ownerId, [FromQuery] int catId, [FromBody] PokemonDto pokemonCreate)
         {
-            if (pokemonCreate == null) return BadRequest(ModelState);
-
+            if (pokemonCreate == null)
+                return BadRequest(ModelState);
             var pokemons = _pokemonRepository.GetPokemonTrimToUpper(pokemonCreate);
-
             if (pokemons != null)
             {
-                ModelState.AddModelError("", "Owner already exist");
+                ModelState.AddModelError("", "Owner already exists");
                 return StatusCode(422, ModelState);
             }
-
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
-            var pokemonMap = _mapper.Map<PokemonDto>(pokemonCreate);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            var pokemonMap = _mapper.Map<Pokemon>(pokemonCreate);
 
             if (!_pokemonRepository.CreatePokemon(ownerId, catId, pokemonMap))
             {
-                ModelState.AddModelError("", "Something when wrong while saving");
+                ModelState.AddModelError("", "Something went wrong while savin");
                 return StatusCode(500, ModelState);
             }
             return Ok("Successfully created");
@@ -119,38 +111,44 @@ namespace PokemonReviewApp.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public IActionResult UpdatePokemon(int pokeId, [FromQuery] int ownerId, [FromBody] PokemonDto updatePokemon)
+        public IActionResult UpdatePokemon(int pokeId, [FromQuery] int ownerId, [FromQuery] int catId, [FromBody] PokemonDto updatedPokemon)
         {
-            if (updatePokemon == null ) return BadRequest(ModelState);   
-            if (pokeId !== updatePokemon.Id) return BadRequest(ModelState);
+            if (updatedPokemon == null) return BadRequest(ModelState);
+            if (pokeId != updatedPokemon.Id) return BadRequest(ModelState);
             if (!_pokemonRepository.PokemonExists(pokeId)) return NotFound();
-
-            if(!ModelState.IsValid) return BadRequest(ModelState);
+            if (!ModelState.IsValid) return BadRequest();
 
             var pokemonMap = _mapper.Map<Pokemon>(updatedPokemon);
-            if(!_pokemonRepository.UpdatePokemon(ownerId, catId, pokemonMap))
+            if (!_pokemonRepository.UpdatePokemon(ownerId, catId, pokemonMap))
             {
                 ModelState.AddModelError("", "something went wrong updating owner");
-                return StatusCode(500, ModelState)
+                return StatusCode(500, ModelState); 
             }
-            return NoContent();
+           return NoContent();
         }
 
         [HttpDelete("{pokeId}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-
-        public IActionResult DeletePokmeon(int pokeId)
+        public IActionResult DeletePokemon(int pokeId)
         {
-            if(!_pokemonRepository.PokemonExists(pokeId))
+            if (!_pokemonRepository.PokemonExists(pokeId))
             {
                 return NotFound();
             }
-           // var reviewsToDelete = _pokemonRepository.GetRev
-
-           if(!_pokemonRepository.DeletePokemon(poke)
+            var reviewsToDelete = _reviewRepository.GetReviewsOfAPokemon(pokeId);
+            var pokemonToDelete = _pokemonRepository.GetPokemon(pokeId);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+            if (!_reviewRepository.DeleteReviews(reviewsToDelete.ToList()))
+            {
+                ModelState.AddModelError("", "Something went wrong when deleting reviews.");
+            }
+            if (!_pokemonRepository.DeletePokemon(pokemonToDelete))
+            {
+                ModelState.AddModelError("", "Something went wrong deleting owner");
+            }
+            return NoContent();
         }
-
     }
 }

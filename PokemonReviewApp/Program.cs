@@ -17,12 +17,14 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // step 13: wire up api/endpoints ("dependency injection")
 builder.Services.AddScoped<IPokemonRepository, PokemonRepository>();
+// builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+// builder.Services.AddScoped<IReviewerRepository, ReviewerRepository>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Step 3: wire in server , connection string, DataContext.cs file
+// Step 3: wire in sserver , connection string, DataContext.cs file
 builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -94,4 +96,14 @@ app.Run();
 
 "ctrl + ." gives recommendation code
  
+ */
+
+/*
+ debug
+
+How to fix if swagger is not opening
+- Double click the file PokemonReviewApp.sln
+
+How to check Erorrs
+- search for Error list 
  */
