@@ -2,10 +2,11 @@
 /*
  step 10: Repository Pattern | Repository 
 
-- design pattern where you can put all your database calls , more reusable
+- design pattern where you put all your database calls , more reusable
 - aims to make your code less tightly coupled (means all in one place)
 
 - this file you will expose the methods you can use to perform action on database | Controller file
+- this is like a blueprint of what methods you have to query database
  */
 
 

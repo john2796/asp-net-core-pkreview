@@ -11,6 +11,7 @@ namespace PokemonReviewApp.Helper
     {
         public MappingProfiles()
         {
+            // need this for mapping properties for GET request sending data to client
             CreateMap<Pokemon, PokemonDto>();
             CreateMap<Category, CategoryDto>();
             CreateMap<Country, CountryDto>();
@@ -18,7 +19,7 @@ namespace PokemonReviewApp.Helper
             CreateMap<Reviewer, ReviewerDto>();
             CreateMap<Owner, OwnerDto>();
 
-            // you need to map the other way around for sending or recieving mapping properties??
+            // need this for updating and creating
             CreateMap<PokemonDto, Pokemon>();
             CreateMap<CategoryDto, Category>();
             CreateMap<CountryDto, Country>();

@@ -4,6 +4,7 @@ using PokemonReviewApp;
 using PokemonReviewApp.Data;
 using PokemonReviewApp.Interfaces;
 using PokemonReviewApp.Repository;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Step 5: dependency injection("just means bring this to the program") wire seed.cs
 builder.Services.AddTransient<Seed>(); // add object to very beginning "AddTransient"
+
+// to fix object cycle error: stuck in a loop with many to many
+builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 // install AutoMapper DependencyInjection
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -115,4 +119,13 @@ How to check Erorrs
 Error Message : AutoMapper.AutoMapperMappingException: Error mapping types.
 - Make sure to add MappingProfiles for the Models , file (Helper/MappingProfiles.cs)
 
+ */
+
+/*
+ What is ICollection ?
+ - is editable version of IEnumberable
+ - middle ground between IEnumerable and List , it has future but not fully like List
+
+What is IEnumerable?
+- bare bone of Collection no functionality like List
  */

@@ -31,12 +31,12 @@ namespace PokemonReviewApp.Controllers
         [ProducesResponseType(200, Type = typeof(IEnumerable<Review>))]
         public IActionResult GetReviews()
         {
-            var rewviews = _mapper.Map<List<ReviewDto>>(_reviewRepository.GetReviews());
+            var reviews = _mapper.Map<List<ReviewDto>>(_reviewRepository.GetReviews());
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            return Ok(rewviews);
+            return Ok(reviews);
         }
 
         [HttpGet("{reviewId}")]
@@ -75,6 +75,7 @@ namespace PokemonReviewApp.Controllers
             if (reviewCreate == null)
                 return BadRequest(ModelState);
 
+            // check for duplicates
             var reviews = _reviewRepository.GetReviews()
                 .Where(c => c.Title.Trim().ToUpper() == reviewCreate.Title.TrimEnd().ToUpper()).FirstOrDefault();
 
@@ -89,6 +90,7 @@ namespace PokemonReviewApp.Controllers
 
             var reviewMap = _mapper.Map<Review>(reviewCreate);
 
+            // join table Pokemon & Reviewer  required
             reviewMap.Pokemon = _pokemonRepository.GetPokemon(pokeId);
             reviewMap.Reviewer = _reviewerRepository.GetReviewer(reviewerId);
 
@@ -99,6 +101,35 @@ namespace PokemonReviewApp.Controllers
             }
 
             return Ok("Successfully created");
+        }
+
+        [HttpPut("{reviewId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateReview(int reviewId, [FromBody] ReviewDto updatedReview)
+        {
+            if (updatedReview == null)
+                return BadRequest(ModelState);
+
+            if (reviewId != updatedReview.Id)
+                return BadRequest(ModelState);
+
+            if (!_reviewRepository.ReviewExists(reviewId))
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var reviewMap = _mapper.Map<Review>(updatedReview);
+
+            if (!_reviewRepository.UpdateReview(reviewMap))
+            {
+                ModelState.AddModelError("", "Something went wrong updating review");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
         }
 
     }

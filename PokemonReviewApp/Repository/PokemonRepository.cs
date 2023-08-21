@@ -27,7 +27,10 @@ namespace PokemonReviewApp.Repository
 
         public bool CreatePokemon(int ownerId, int categoryId, Pokemon pokemon)
         {
+            // Pokemon has to have Owner and Category when creating new pokemon
+            // get the Owner to assign to pokemon
             var pokemonOwnerEntity = _context.Owners.Where(a => a.Id == ownerId).FirstOrDefault();
+            // get the Categories to assign to pokemon
             var category = _context.Categories.Where(a => a.Id == categoryId).FirstOrDefault();
 
             var pokemonOwner = new PokemonOwner()
