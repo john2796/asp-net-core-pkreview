@@ -43,7 +43,7 @@ namespace PokemonReviewApp.Repository
 
         public ICollection<Pokemon> GetPokemonByCategory(int categoryId)
         {
-            return _context.PokemonCategories.Where(e => e.CategoryId == categoryId).ToList().Select(c => c.Pokemon).ToList();
+            return _context.PokemonCategories.Where(e => e.CategoryId == categoryId).ToList().Select(c => c.Pokemon).ToList(); // select nested entity
         }
 
         public bool Save()

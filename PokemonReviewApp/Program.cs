@@ -1,3 +1,4 @@
+using CountryReviewApp.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using PokemonReviewApp;
 using PokemonReviewApp.Data;
@@ -17,8 +18,11 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // step 13: wire up api/endpoints ("dependency injection")
 builder.Services.AddScoped<IPokemonRepository, PokemonRepository>();
-// builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
-// builder.Services.AddScoped<IReviewerRepository, ReviewerRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICountryRepository, CountryRepository>();
+builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+builder.Services.AddScoped<IReviewerRepository, ReviewerRepository>();
+builder.Services.AddScoped<IOwnerRepository, OwnerRepository>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -106,4 +110,9 @@ How to fix if swagger is not opening
 
 How to check Erorrs
 - search for Error list 
+
+
+Error Message : AutoMapper.AutoMapperMappingException: Error mapping types.
+- Make sure to add MappingProfiles for the Models , file (Helper/MappingProfiles.cs)
+
  */
