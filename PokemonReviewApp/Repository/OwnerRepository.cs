@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using PokemonReviewApp.Data;
 using PokemonReviewApp.Interfaces;
 using PokemonReviewApp.Models;
@@ -39,7 +38,7 @@ namespace PokemonReviewApp.Repository
 
         public ICollection<Owner> GetOwners()
         {
-             return _context.Owners.ToList();
+             return _context.Owners.Include(o => o.Country).ToList();
         }
 
         public ICollection<Pokemon> GetPokemonByOwner(int ownerId)
