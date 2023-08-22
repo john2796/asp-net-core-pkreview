@@ -9,6 +9,10 @@
 - Dto are way making sure you're not returning all data.
 - properties to expose to client
 - limit data people can send and recieve to api
+
+Create a DTO (Data Transfer Object) Class:
+
+
  */
 
 

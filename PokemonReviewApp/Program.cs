@@ -8,6 +8,10 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var AllowWebClient = "allowWebClient";
+
+
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -38,6 +42,18 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: AllowWebClient,
+        policy =>
+        {
+            policy.WithOrigins("https://localhost:7009")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowAnyOrigin();
+        });
+});
+
 var app = builder.Build();
 
 // Step 6: add seed data before app starts
@@ -61,6 +77,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseCors(AllowWebClient);
 }
 
 app.UseHttpsRedirection();
